@@ -15,4 +15,6 @@ public interface ArticleService {
 
     public Map<String, Object> getListArticle(ArticleDTOFilter articleDTOFilter);
 
+    public Map<String, Object> getNewFeed(ArticleDTOFilter articleDTOFilter);
+
 }

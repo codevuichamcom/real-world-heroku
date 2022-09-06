@@ -58,4 +58,27 @@ public class ArticleCriteria {
         wrapper.put("listArticle", listArticle);
         return wrapper;
     }
+
+    public Map<String, Object> getNewFeed(List<String> listUsername, ArticleDTOFilter filter) {
+
+        StringBuilder query = new StringBuilder("select a from Article a where a.author.username in (:followers)");
+
+        Query countTotalQuery = em.createQuery(query.toString().replace("select a", "select count(a.id)"));
+        query.append(" order by a.createdAt DESC");
+        TypedQuery<Article> tQuery = em.createQuery(query.toString(), Article.class);
+        tQuery.setParameter("followers", listUsername);
+        countTotalQuery.setParameter("followers", listUsername);
+
+        tQuery.setFirstResult(filter.getOffset());
+        tQuery.setMaxResults(filter.getLimit());
+
+        long totalArtical = (long) countTotalQuery.getSingleResult();
+        List<Article> listArticle = tQuery.getResultList();
+
+        Map<String, Object> wrapper = new HashMap<String, Object>();
+        wrapper.put("articlesCount", totalArtical);
+        wrapper.put("listArticle", listArticle);
+        return wrapper;
+    }
+
 }

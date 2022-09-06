@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -89,6 +91,25 @@ public class ArticleServiceImpl implements ArticleService {
         for (Article article : articles) {
             articleDTOResponses.add(ArticleMapper.toArticleDTOResponse(article, false, 0, true));
         }
+        Map<String, Object> wrapper = new HashMap<>();
+        wrapper.put("article", articleDTOResponses);
+        wrapper.put("articlesCount", (long) articleMap.get("articlesCount"));
+        return wrapper;
+    }
+
+    @Override
+    public Map<String, Object> getNewFeed(ArticleDTOFilter articleDTOFilter) {
+        User currentUser = userService.getUserLoggedIn();
+        Set<User> followings = currentUser.getFollowings();
+        List<String> listUsername = followings.stream().map(u -> u.getUsername()).collect(Collectors.toList());
+
+        Map<String, Object> articleMap = articleCriteria.getNewFeed(listUsername, articleDTOFilter);
+        List<ArticleDTOResponse> articleDTOResponses = new ArrayList<>();
+        List<Article> articles = (List<Article>) articleMap.get("listArticle");
+        for (Article article : articles) {
+            articleDTOResponses.add(ArticleMapper.toArticleDTOResponse(article, false, 0, true));
+        }
+
         Map<String, Object> wrapper = new HashMap<>();
         wrapper.put("article", articleDTOResponses);
         wrapper.put("articlesCount", (long) articleMap.get("articlesCount"));

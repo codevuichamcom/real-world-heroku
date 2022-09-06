@@ -48,4 +48,14 @@ public class ArticleController {
         return articleService.getListArticle(articleDTOFilter);
     }
 
+    @GetMapping("/feed")
+    public Map<String, Object> newFeed(
+            @RequestParam(name = "limit", defaultValue = "20") Integer limit,
+            @RequestParam(name = "offset", defaultValue = "0") Integer offset) {
+        ArticleDTOFilter articleDTOFilter = ArticleDTOFilter.builder()
+                .limit(limit).offset(offset)
+                .build();
+        return articleService.getNewFeed(articleDTOFilter);
+    }
+
 }
