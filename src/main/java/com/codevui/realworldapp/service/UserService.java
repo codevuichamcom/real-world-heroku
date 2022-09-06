@@ -2,6 +2,7 @@ package com.codevui.realworldapp.service;
 
 import java.util.Map;
 
+import com.codevui.realworldapp.entity.User;
 import com.codevui.realworldapp.exception.custom.CustomBadRequestException;
 import com.codevui.realworldapp.exception.custom.CustomNotFoundException;
 import com.codevui.realworldapp.model.profile.dto.ProfileDTOResponse;
@@ -27,5 +28,7 @@ public interface UserService {
 
     public Map<String, UserDTOResponse> updateCurrentUser(Map<String, UserDTOUpdate> userDTOUpdateMap)
             throws CustomNotFoundException;
+
+    public User getUserLoggedIn();
 
 }
