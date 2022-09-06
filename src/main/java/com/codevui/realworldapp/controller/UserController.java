@@ -14,9 +14,12 @@ import com.codevui.realworldapp.exception.custom.CustomNotFoundException;
 import com.codevui.realworldapp.model.user.dto.UserDTOCreate;
 import com.codevui.realworldapp.model.user.dto.UserDTOLoginRequest;
 import com.codevui.realworldapp.model.user.dto.UserDTOResponse;
+import com.codevui.realworldapp.model.user.dto.UserDTOUpdate;
 import com.codevui.realworldapp.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api")
@@ -41,5 +44,12 @@ public class UserController {
     @GetMapping("/user")
     public Map<String, UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
         return userService.getCurrentUser();
+    }
+
+    @PutMapping(value = "/user")
+    public Map<String, UserDTOResponse> updateCurrentUser(@RequestBody Map<String, UserDTOUpdate> userDTOUpdateMap)
+            throws CustomNotFoundException {
+
+        return userService.updateCurrentUser(userDTOUpdateMap);
     }
 }

@@ -18,6 +18,7 @@ import com.codevui.realworldapp.model.profile.dto.ProfileDTOResponse;
 import com.codevui.realworldapp.model.user.dto.UserDTOCreate;
 import com.codevui.realworldapp.model.user.dto.UserDTOLoginRequest;
 import com.codevui.realworldapp.model.user.dto.UserDTOResponse;
+import com.codevui.realworldapp.model.user.dto.UserDTOUpdate;
 import com.codevui.realworldapp.model.user.mapper.UserMapper;
 import com.codevui.realworldapp.repository.UserRepository;
 import com.codevui.realworldapp.service.UserService;
@@ -167,6 +168,19 @@ public class UserServiceImpl implements UserService {
             isFollowing = false;
         }
         return buildProfileResponse(userOptional.get(), isFollowing);
+    }
+
+    @Override
+    public Map<String, UserDTOResponse> updateCurrentUser(Map<String, UserDTOUpdate> userDTOUpdateMap)
+            throws CustomNotFoundException {
+        User user = getUserLoggedIn();
+        UserDTOUpdate userDTOUpdate = userDTOUpdateMap.get("user");
+        if (user != null) {
+            UserMapper.toUser(user, userDTOUpdate);
+            user = userRepository.save(user);
+            return buildDTOResponse(user);
+        }
+        throw new CustomNotFoundException(CustomError.builder().code("404").message("User not found").build());
     }
 
 }

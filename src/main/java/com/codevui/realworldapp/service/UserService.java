@@ -8,6 +8,7 @@ import com.codevui.realworldapp.model.profile.dto.ProfileDTOResponse;
 import com.codevui.realworldapp.model.user.dto.UserDTOCreate;
 import com.codevui.realworldapp.model.user.dto.UserDTOLoginRequest;
 import com.codevui.realworldapp.model.user.dto.UserDTOResponse;
+import com.codevui.realworldapp.model.user.dto.UserDTOUpdate;
 
 public interface UserService {
 
@@ -23,5 +24,8 @@ public interface UserService {
     public Map<String, ProfileDTOResponse> followUser(String username) throws CustomNotFoundException;
 
     public Map<String, ProfileDTOResponse> unfollowUser(String username) throws CustomNotFoundException;
+
+    public Map<String, UserDTOResponse> updateCurrentUser(Map<String, UserDTOUpdate> userDTOUpdateMap)
+            throws CustomNotFoundException;
 
 }
