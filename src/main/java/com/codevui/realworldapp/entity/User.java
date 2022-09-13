@@ -55,4 +55,7 @@ public class User {
     @JoinTable(name = "user_favorite_article", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "article_id"))
     private Set<Article> articleFavorited;
 
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments;
+
 }

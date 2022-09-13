@@ -12,11 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.type.ListType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +30,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@TypeDef(name = "list-array", typeClass = ListType.class)
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,4 +63,7 @@ public class Article {
 
     @ManyToMany(mappedBy = "articleFavorited")
     private Set<User> userFavorited;
+
+    @OneToMany(mappedBy = "article")
+    private List<Comment> comments;
 }
